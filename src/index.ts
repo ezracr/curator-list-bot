@@ -43,9 +43,7 @@ const extractPath = async (str: string): Promise<string | null> => {
     // something like `puppeteer` as it redirects with js.
     const normPath = await normUrl(url)
     return normPath
-  } catch (e) {
-    console.log(e)
-  }
+  } catch (e) { }
   return null
 }
 
@@ -58,10 +56,12 @@ const notify = async (msg: dsc.Message<boolean>, replyStr: string): Promise<void
     } catch (e) {
       console.log(e)
     }
-  }, 3000)
+  }, 7 * 1000)
 }
 
 const dbClient = new DbClient()
+// dbClient.list().then((res) => console.log(res))
+// dbClient.list().then((res) => res.map((key) => dbClient.delete(key)))
 
 client.on('messageCreate', async (msg): Promise<void> => {
   try {
@@ -72,9 +72,9 @@ client.on('messageCreate', async (msg): Promise<void> => {
       const key = Buffer.from(extrPath).toString('base64')
       const val = await dbClient.get(key)
       if (val) {
-        await notify(msg, config.existsMessage)
+        await notify(msg, `${config.existsMessage}${val}.`)
       } else {
-        await dbClient.set(key, 1)
+        await dbClient.set(key, msg.url)
       }
     } else {
       await notify(msg, config.onlyLinksMessage)
