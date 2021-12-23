@@ -1,10 +1,10 @@
 import express = require('express')
-import dsc = require('discord.js');
-import axios = require('axios');
-import DbClient = require('@replit/database');
+import dsc = require('discord.js')
+import axios = require('axios')
+import DbClient = require('@replit/database')
+import { URL } from 'url'
 
 import config from './config'
-import { URL } from 'url'
 
 const app = express()
 
@@ -84,4 +84,4 @@ client.on('messageCreate', async (msg): Promise<void> => {
   }
 })
 
-client.login(config.token);
+client.login(config.token)
