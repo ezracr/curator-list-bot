@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "ezra",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "dependencies": {
     "@replit/database": "^2.0.1",
     "@types/express": "^4.17.13",
