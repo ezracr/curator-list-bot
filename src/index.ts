@@ -47,7 +47,7 @@ const extractPath = async (str: string): Promise<string | null> => {
   return null
 }
 
-const notify = async (msg: dsc.Message<boolean>, replyStr: string): Promise<void> => {
+const notify = async (msg: dsc.Message<boolean>, replyStr: string, timeout = 3): Promise<void> => {
   const reply = await msg.reply(replyStr)
   await msg.delete()
   setTimeout(async () => {
@@ -56,7 +56,7 @@ const notify = async (msg: dsc.Message<boolean>, replyStr: string): Promise<void
     } catch (e) {
       console.log(e)
     }
-  }, 7 * 1000)
+  }, timeout * 1000)
 }
 
 const dbClient = new DbClient()
@@ -72,7 +72,7 @@ client.on('messageCreate', async (msg): Promise<void> => {
       const key = Buffer.from(extrPath).toString('base64')
       const val = await dbClient.get(key)
       if (val) {
-        await notify(msg, `${config.existsMessage}${val}.`)
+        await notify(msg, `${config.existsMessage}${val}.`, 7)
       } else {
         await dbClient.set(key, msg.url)
       }
