@@ -65,8 +65,7 @@ const dbClient = new DbClient()
 
 client.on('messageCreate', async (msg): Promise<void> => {
   try {
-    // Bot's id MUST be correct, otherwise it will be stuck in a recursion
-    if (msg.author.id === config.botId) return
+    if (msg.author.bot) return
     const extrPath = await extractPath(msg.content)
     if (extrPath !== null) {
       const key = Buffer.from(extrPath).toString('base64')
